@@ -10,6 +10,9 @@ class Job(db.Model):
     location = db.Column(db.String(200), nullable=False, index=True)
     date_posted = db.Column(db.Date, default=date.today, index=True)
     link = db.Column(db.String(500), nullable=False)
+    job_type = db.Column(db.String(100), nullable=True)
+    tags = db.Column(db.String(200), nullable=True)
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
 
     def to_dict(self):
         return {
