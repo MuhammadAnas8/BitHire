@@ -5,8 +5,7 @@ from db import db
 
 job_bp = Blueprint("jobs", __name__, url_prefix="/jobs")
 
-
-@job_bp.get("/")
+@job_bp.get("")
 def list_jobs():
 
     query = Job.query
