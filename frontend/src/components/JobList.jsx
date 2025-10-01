@@ -1,32 +1,33 @@
-import JobCard from "./JobCard";
 import React, { useEffect, useState } from "react";
-import { fetchAllJobs } from "../api.js";
-import JobForm from "./JobForm.jsx";
-import{createJob, updateJob, deleteJob} from "../api.js";   
-const JobList = () => {
-      const [jobs, setJobs] = useState([]);
-  const [loading, setLoading] = useState(true);
-   const [editingJob, setEditingJob] = useState(null);
-  const [showForm, setShowForm] = useState(false);
-    const loadJobs = async () => {
-      try {
-        const data = await fetchAllJobs();
-        setJobs(data.items);
-      } catch (err) {
-        console.error("Error fetching jobs:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-   
-  useEffect(() => {
+import JobCard from "./JobCard";
+import JobForm from "./JobForm";
 
-    loadJobs();
+import { loadJobs } from "./helpers";
+import { handleDeleteJob } from "./DeleteJob";
+import { handleAddEditJob } from "./AddEditJob";
+
+const JobList = () => {
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [editingJob, setEditingJob] = useState(null);
+  const [showForm, setShowForm] = useState(false);
+
+  // load jobs initially
+  useEffect(() => {
+    loadJobs(setJobs, setLoading);
   }, []);
 
-  const handleAdd = () => {
-    setEditingJob(null);
-    setShowForm(true);
+  const reload = () => loadJobs(setJobs, setLoading);
+
+  const handleSubmit = async (payload) => {
+    await handleAddEditJob(editingJob, payload, reload, () => {
+      setShowForm(false);
+      setEditingJob(null);
+    });
+  };
+
+  const handleDelete = (id) => {
+    handleDeleteJob(id, reload);
   };
 
   const handleEdit = (job) => {
@@ -34,55 +35,38 @@ const JobList = () => {
     setShowForm(true);
   };
 
-  const handleSubmit = async (payload) => {
-    if (editingJob) {
-      await updateJob(editingJob.id, payload);
-    } else {
-        console.log(payload);
-      await createJob(payload);
-    }
-    setShowForm(false);
+  const handleAdd = () => {
     setEditingJob(null);
-    loadJobs();
+    setShowForm(true);
   };
-
-  const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this job?")) {
-      await deleteJob(id);
-      loadJobs();
-    }
-  }
 
   if (loading) return <p>Loading jobs...</p>;
 
   return (
     <>
- {showForm ? (
+      {showForm ? (
         <JobForm
           initialData={editingJob}
           onSubmit={handleSubmit}
           onCancel={() => setShowForm(false)}
         />
       ) : (
-          <button
-            onClick={handleAdd}
-            className="bg-green-600 text-white px-4 py-2 rounded"
-          >
-            + Add Job
-          </button>
-        )}
-<div className="job-list">
-  {jobs.map((job) => (
-    <JobCard
-      key={job.id}
-      job={job}
-      onEdit={() => handleEdit(job)}
-      onDelete={() => handleDelete(job.id)}
-    />
-  ))}
-</div>
-    </>
+        <button onClick={handleAdd} className="add-btn">
+          + Add Job
+        </button>
+      )}
 
+      <div className="job-list">
+        {jobs.map((job) => (
+          <JobCard
+            key={job.id}
+            job={job}
+            onEdit={() => handleEdit(job)}
+            onDelete={() => handleDelete(job.id)}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 

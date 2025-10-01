@@ -11,7 +11,6 @@ const JobForm = ({ initialData, onSubmit, onCancel }) => {
     job_type: "",
     tags: "",
     link: "",
-    description: "",
   });
 
   useEffect(() => {
@@ -40,37 +39,92 @@ const JobForm = ({ initialData, onSubmit, onCancel }) => {
   };
 
   return (
+    <div className="modal-wrapper">
     <form onSubmit={handleSubmit} className="job-form">
       <h2>{initialData ? "Edit Job" : "Add Job"}</h2>
 
-      <label>Job Title</label>
-      <input name="title" value={formData.title} onChange={handleChange} required />
+      {/* Full width */}
+      <div className="form-group full">
+        <label>Job Title</label>
+        <input
+          name="title"
+          value={formData.title}
+          onChange={handleChange}
+          required
+        />
+      </div>
 
-      <label>Company</label>
-      <input name="company" value={formData.company} onChange={handleChange} required />
+      {/* Row: Company + Location */}
+      <div className="form-group">
+        <label>Company</label>
+        <input
+          name="company"
+          value={formData.company}
+          onChange={handleChange}
+          required
+        />
+      </div>
 
-      <label>Location</label>
-      <input name="location" value={formData.location} onChange={handleChange} required />
+      <div className="form-group">
+        <label>Location</label>
+        <input
+          name="location"
+          value={formData.location}
+          onChange={handleChange}
+          required
+        />
+      </div>
 
-      <label>Job Type</label>
-      <input name="job_type" value={formData.job_type} onChange={handleChange} placeholder="Full-time / Part-time" />
+      {/* Row: Job Type + Posting Date */}
+      <div className="form-group">
+        <label>Job Type</label>
+        <input
+          name="job_type"
+          value={formData.job_type}
+          onChange={handleChange}
+          placeholder="Full-time / Part-time"
+        />
+      </div>
 
-      <label>Link</label>
-      <input name="link" value={formData.link} onChange={handleChange} placeholder="https://example.com" />
+      <div className="form-group">
+        <label>Posting Date</label>
+        <input
+          type="date"
+          name="posting_date"
+          value={formData.posting_date}
+          onChange={handleChange}
+        />
+      </div>
 
-      <label>Posting Date</label>
-      <input type="date" name="posting_date" value={formData.posting_date} onChange={handleChange} />
+      {/* Row: Link + Tags */}
+      <div className="form-group">
+        <label>Link</label>
+        <input
+          name="link"
+          value={formData.link}
+          onChange={handleChange}
+          placeholder="https://example.com"
+        />
+      </div>
 
-      <label>Tags</label>
-      <input name="tags" value={formData.tags} onChange={handleChange} placeholder="Pricing, Python" />
+      <div className="form-group">
+        <label>Tags</label>
+        <input
+          name="tags"
+          value={formData.tags}
+          onChange={handleChange}
+          placeholder="JavaScript, Python"
+        />
+      </div>
 
-
-
-      <div className="form-buttons">
+      <div className="form-buttons full">
         <button type="submit">{initialData ? "Update" : "Add"}</button>
-        <button type="button" className="cancel" onClick={onCancel}>Cancel</button>
+        <button type="button" className="cancel" onClick={onCancel}>
+          Cancel
+        </button>
       </div>
     </form>
+    </div>
   );
 };
 

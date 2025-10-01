@@ -1,47 +1,138 @@
+/* === Modal base === */
 .job-form {
-  max-width: 500px;
-  margin: 1rem auto;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background: #fafafa;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+
+  width: 600px;
+  max-width: 95%;
+  padding: 24px 28px;
+
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  animation: fadeIn 0.25s ease-out;
 }
 
+
+/* Dark backdrop */
+.modal-wrapper {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 1000;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Headline full width */
 .job-form h2 {
-  margin-bottom: 1rem;
+  grid-column: span 2;
   text-align: center;
+  margin: 0 0 12px 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1f2937;
 }
 
-.job-form label {
-  display: block;
-  margin-top: 0.5rem;
-  font-weight: bold;
+/* Form groups */
+.form-group {
+  display: flex;
+  flex-direction: column;
 }
 
+.form-group.full {
+  grid-column: span 2;
+}
+
+/* Inputs & textarea */
 .job-form input,
 .job-form textarea {
-  width: 100%;
-  padding: 0.4rem;
-  margin-top: 0.2rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: #f9fafb;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+.job-form input:focus,
+.job-form textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+  background: #fff;
+  outline: none;
+}
+
+/* Buttons row */
 .form-buttons {
   display: flex;
-  justify-content: space-between;
-  margin-top: 1rem;
+  gap: 12px;
+  margin-top: 12px;
 }
 
-.job-form button {
-  padding: 0.5rem 1rem;
+.form-buttons button {
+  flex: 1;
+  padding: 10px;
   border: none;
-  background: #007bff;
-  color: white;
-  border-radius: 4px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.2s;
+}
+
+.form-buttons button[type="submit"] {
+  background: #2563eb;
+  color: #fff;
+}
+
+.form-buttons button[type="submit"]:hover {
+  background: #1e40af;
+  transform: translateY(-1px);
+}
+
+.form-buttons .cancel {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.form-buttons .cancel:hover {
+  background: #e5e7eb;
+  transform: translateY(-1px);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -46%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+
+
+.add-btn {
+  background-color: #16a34a; 
+  color: #ffffff;           
+  padding: 0.5rem 1rem;     
+  border-radius: 0.25rem;   
+  border: none;
   cursor: pointer;
 }
 
-.job-form button.cancel {
-  background: #6c757d;
+.add-btn:hover {
+  background-color: #15803d; 
 }
