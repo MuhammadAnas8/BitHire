@@ -18,6 +18,7 @@ export const createJob = async (jobData) => {
     return response.data;
 }
 export const updateJob = async (id, jobData) => {
+    console.log(`Update job with ID: ${id} data is: `, jobData);
     const response = await api.put(`/jobs/${id}`, jobData);
     return response.data;
 }

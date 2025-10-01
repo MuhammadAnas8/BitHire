@@ -7,7 +7,7 @@ const JobForm = ({ initialData, onSubmit, onCancel }) => {
     title: "",
     company: "",
     location: "",
-    posting_date: "",
+    date_posted: "",
     job_type: "",
     tags: "",
     link: "",
@@ -17,8 +17,8 @@ const JobForm = ({ initialData, onSubmit, onCancel }) => {
     if (initialData) {
       setFormData({
         ...initialData,
-        posting_date: initialData.posting_date
-          ? initialData.posting_date.split("T")[0]
+        date_posted: initialData.date_posted
+          ? initialData.date_posted.split("T")[0]
           : "",
         tags: initialData.tags ? initialData.tags.join(", ") : "",
       });
@@ -90,8 +90,8 @@ const JobForm = ({ initialData, onSubmit, onCancel }) => {
         <label>Posting Date</label>
         <input
           type="date"
-          name="posting_date"
-          value={formData.posting_date}
+          name="date_posted"
+          value={formData.date_posted}
           onChange={handleChange}
         />
       </div>

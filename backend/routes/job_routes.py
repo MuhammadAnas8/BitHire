@@ -133,6 +133,11 @@ def update_job(job_id: int):
             job.date_posted = date.fromisoformat(data["date_posted"])
         except ValueError:
             abort(400, description="date_posted must be YYYY-MM-DD")
+    if "tags" in data:
+        job.tags = data["tags"]
+    if "job_type" in data:
+        job.job_type = data["job_type"]
+    
 
     db.session.commit()
     return jsonify(job.to_dict())
