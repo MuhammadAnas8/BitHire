@@ -3,13 +3,13 @@ import "../styles/JobCard.css";
  import { FaRegTrashCan,FaLocationDot  } from "react-icons/fa6";
  import { FaRegEdit,FaRegCalendarAlt,FaRegClock,FaRegBuilding  } from "react-icons/fa";
 
-const JobCard = ({ job }) => {
+const JobCard = ({ job, onEdit, onDelete }) => {
   return (
     <div className="job-card">
       {/* Top bar with Edit/Delete */}
       <div className="job-toolbar">
-        <button className="icon-btn edit"><FaRegEdit /></button>
-        <button className="icon-btn delete"><FaRegTrashCan /></button>
+        <button onClick={() => onEdit(job)} className="icon-btn edit"><FaRegEdit /></button>
+        <button onClick={() => onDelete(job.id)} className="icon-btn delete"><FaRegTrashCan /></button>
       </div>
 
       {/* Header */}
