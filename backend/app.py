@@ -1,9 +1,8 @@
 from flask import Flask, jsonify
 from config import Config
 from db import db
-from routes.job_routes import job_bp
+from routes.job_routes import job_blueprint
 from flask_cors import CORS
-from models.job import Job  # ensure model is registered before create_all()
 
 def create_app() -> Flask:
     app = Flask(__name__)
@@ -16,7 +15,7 @@ def create_app() -> Flask:
     with app.app_context():
         db.create_all()  # creates the 'jobs' table if not present
 
-    app.register_blueprint(job_bp)
+    app.register_blueprint(job_blueprint)
 
     @app.get("/")
     def health():

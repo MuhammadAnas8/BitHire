@@ -1,15 +1,21 @@
 from datetime import datetime, date
 from flask import Blueprint, jsonify, request, abort
 from models.job import Job
-from db import db   
+from db import db
 
-job_bp = Blueprint("jobs", __name__, url_prefix="/jobs")
+# Blueprint for job routes
+job_blueprint = Blueprint("jobs", __name__, url_prefix="/jobs")
 
-@job_bp.get("")
+
+# -------------------------
+# GET: List Jobs (with filters + pagination)
+# -------------------------
+@job_blueprint.get("/")
 def list_jobs():
-
+    """List all jobs with optional filters and pagination."""
     query = Job.query
 
+    # Filtering
     title = request.args.get("title")
     if title:
         query = query.filter(Job.title.ilike(f"%{title}%"))
@@ -30,37 +36,57 @@ def list_jobs():
         except ValueError:
             abort(400, description="posted_after must be YYYY-MM-DD")
 
-    # simple pagination (defaults)
+    # Pagination (defaults: page=1, per_page=20, max=100)
     page = int(request.args.get("page", 1))
     per_page = min(int(request.args.get("per_page", 20)), 100)
 
-    pagination = query.order_by(Job.date_posted.desc()) \
-                      .paginate(page=page, per_page=per_page, error_out=False)
+    pagination = (
+        query.order_by(Job.date_posted.desc())
+        .paginate(page=page, per_page=per_page, error_out=False)
+    )
 
     return jsonify({
-        "items": [item.to_dict() for item in pagination.items],
+        "items": [job.to_dict() for job in pagination.items],
         "page": pagination.page,
         "per_page": pagination.per_page,
         "total": pagination.total,
         "pages": pagination.pages,
     })
 
-@job_bp.get("/<int:job_id>")
+
+# -------------------------
+# GET: Single Job
+# -------------------------
+@job_blueprint.get("/<int:job_id>")
 def get_job(job_id: int):
+    """Get a single job by ID."""
     job = Job.query.get_or_404(job_id)
     return jsonify(job.to_dict())
 
 
-@job_bp.post("/")
+# -------------------------
+# POST: Create Job
+# -------------------------
+@job_blueprint.post("")
 def create_job():
+    """Create a new job posting."""
     data = request.get_json(force=True) or {}
 
-    # validate required fields
+    # Normalize tags input (string -> list, list -> cleaned list)
+    tags_input = data.get("tags")
+    if isinstance(tags_input, str):
+        tags_list = [tag.strip() for tag in tags_input.split(",") if tag.strip()]
+    elif isinstance(tags_input, list):
+        tags_list = [str(tag).strip() for tag in tags_input if str(tag).strip()]
+    else:
+        tags_list = []
+
+    # Validate required fields
     for field in ["title", "company", "location", "link"]:
-        if field not in data or not str(data[field]).strip():
+        if not str(data.get(field, "")).strip():
             abort(400, description=f"Missing required field: {field}")
 
-    # parse date_posted if provided
+    # Parse date_posted
     if "date_posted" in data:
         try:
             posted_date = datetime.strptime(data["date_posted"], "%Y-%m-%d").date()
@@ -69,35 +95,28 @@ def create_job():
     else:
         posted_date = date.today()
 
-    # create and save
+    # Create and save job
     job = Job(
         title=data["title"].strip(),
         company=data["company"].strip(),
         location=data["location"].strip(),
         link=data["link"].strip(),
         date_posted=posted_date,
+        job_type=data.get("job_type", "").strip() or None,
+        tags=tags_list,
     )
     db.session.add(job)
     db.session.commit()
 
-    return jsonify("Success: ",job.to_dict()), 201
+    return jsonify({"message": "Job created successfully", "job": job.to_dict()}), 201
 
 
-# ... list_jobs + get_job + create_job ...
-
-@job_bp.route("/<int:job_id>", methods=["PUT", "PATCH"])
+# -------------------------
+# PUT/PATCH: Update Job
+# -------------------------
+@job_blueprint.route("/<int:job_id>", methods=["PUT", "PATCH"])
 def update_job(job_id: int):
-    """
-    Update a job by ID.
-    Accepts JSON body with any fields to update:
-    {
-      "title": "Updated Title",
-      "company": "New Company",
-      "location": "Updated Location",
-      "link": "https://new-link.com",
-      "date_posted": "2025-09-30"
-    }
-    """
+    """Update an existing job by ID."""
     job = Job.query.get_or_404(job_id)
     data = request.get_json(force=True) or {}
 
@@ -118,10 +137,17 @@ def update_job(job_id: int):
     db.session.commit()
     return jsonify(job.to_dict())
 
-@job_bp.route("/<int:job_id>", methods=["DELETE"])
+
+# -------------------------
+# DELETE: Remove Job
+# -------------------------
+@job_blueprint.route("/<int:job_id>", methods=["DELETE"])
 def delete_job(job_id: int):
+    """Delete a job by ID."""
     job = Job.query.get_or_404(job_id)
     db.session.delete(job)
     db.session.commit()
-    return jsonify({"message": f"Job {job_id} deleted successfully"})
-
+    return jsonify(
+        {
+            "message": f"Job {job_id} deleted successfully"
+         })

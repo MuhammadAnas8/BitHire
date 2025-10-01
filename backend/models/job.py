@@ -1,5 +1,6 @@
 from datetime import date
 from db import db
+from sqlalchemy.dialects.postgresql import JSON
 
 class Job(db.Model):
     __tablename__ = "jobs"
@@ -10,8 +11,8 @@ class Job(db.Model):
     location = db.Column(db.String(200), nullable=False, index=True)
     date_posted = db.Column(db.Date, default=date.today, index=True)
     link = db.Column(db.String(500), nullable=False)
-    job_type = db.Column(db.String(100), nullable=True)
-    tags = db.Column(db.String(200), nullable=True)
+    job_type = db.Column(db.String(100), nullable=True, default="Full-Time")
+    tags = db.Column(db.JSON)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
 
     def to_dict(self):
@@ -22,4 +23,6 @@ class Job(db.Model):
             "location": self.location,
             "date_posted": self.date_posted.isoformat() if self.date_posted else None,
             "link": self.link,
+            "job_type": self.job_type,
+            "tags": self.tags or [],
         }
