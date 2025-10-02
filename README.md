@@ -284,7 +284,21 @@ Frontend runs on: http://localhost:5173
 | updated_at | DateTime | Record update timestamp |
 
 ---
-
+### Job Schema
+```Job Table Schema
+CREATE TABLE jobs (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(200) NOT NULL,
+    company VARCHAR(200) NOT NULL,
+    location VARCHAR(200) NOT NULL,
+    job_type VARCHAR(50),
+    link VARCHAR(500),
+    posting_date DATE,
+    tags TEXT[], -- PostgreSQL array type
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+);
+```
 ## 🎨 Frontend Components
 
 ### Component Hierarchy
@@ -381,4 +395,4 @@ This project is created as an assessment for *Bitbash* and is intended for educa
 
 ---
 
-⚡ *BitHire* – Fast, modern job board built for Bitbash.
+⚡ BitHire – Full-stack job listing portal developed for Bitbash assessment.
