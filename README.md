@@ -331,25 +331,7 @@ env
 VITE_API_URL=http://127.0.0.1:5000
 
 
----
 
-## 🧪 Testing
-
-### Backend Testing
-
-bash
-cd backend
-pytest
-
-
-### Frontend Testing
-
-bash
-cd frontend
-npm run test
-
-
----
 
 ## 🚀 Deployment
 
@@ -381,19 +363,6 @@ npm run test
 - [ ] Resume upload and management
 - [ ] Dark mode support
 
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (git checkout -b feature/AmazingFeature)
-3. Commit your changes (git commit -m 'Add some AmazingFeature')
-4. Push to the branch (git push origin feature/AmazingFeature)
-5. Open a Pull Request
-
----
 
 ## 📝 License
 
@@ -403,9 +372,9 @@ This project is created as an assessment for *Bitbash* and is intended for educa
 
 ## 📧 Contact
 
-*Project by:* [Your Name]  
-*Email:* your.email@example.com  
-*GitHub:* [@yourusername](https://github.com/yourusername)
+*Project by:* Muhammad Anas 
+*Email:* muhammadanas.tech@gmail.co 
+*GitHub:* [@muhammadanas8](https://github.com/muhammadanas8)
 
 ---
 
