@@ -17,7 +17,7 @@
   flex-direction: column;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  max-width:300px ;
+  max-width:350px ;
 }
 
 .job-card:hover {
@@ -130,9 +130,14 @@
 
 /* Responsive (extra polish) */
 @media (max-width: 640px) {
+
   .job-meta {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.3rem;
+  }
+  .job-card{
+    align-self: center;
+    max-width: 90%;
   }
 }

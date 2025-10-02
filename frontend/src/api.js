@@ -4,11 +4,10 @@ const api = axios.create({
     baseURL: "http://127.0.0.1:5000",
 });
 
-export const fetchAllJobs = async () => {
-    const response = await api.get("/jobs");
-    return response.data;
-}
-
+export const fetchAllJobs = async (params = {}) => {
+  const { data } = await api.get("/jobs", { params });
+  return data;
+};
 export const fetchOneJob = async (id) => {
     const response = await api.get(`/jobs/${id}`);
     return response.data;
