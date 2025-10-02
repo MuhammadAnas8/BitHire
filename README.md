@@ -41,7 +41,7 @@ It allows job seekers to browse, search, and filter job postings while enabling 
 ## 📂 Project Structure
 
 
-BitHire/
+```BitHire/
 │
 ├── backend/
 │   ├── app.py              # Flask entry point
@@ -68,7 +68,7 @@ BitHire/
 │   └── vite.config.js
 │
 └── README.md
-
+```
 
 ---
 
@@ -290,14 +290,16 @@ Frontend runs on: http://localhost:5173
 ### Component Hierarchy
 
 ```text
-App.jsx
-└── JobList.jsx (Main Container)
-    ├── JobActionBar.jsx (Controls)
-    │   └── FilterSortJob.js (API helper)
-    ├── JobCard.jsx (Display)
-    │   ├── AddEditJob.js (API helper)
-    │   └── DeleteJob.js (API helper)
-    └── JobForm.jsx (Add/Edit Modal)
+└── 📁components
+    ├── AddEditJob.js (logic: add and edit jon)
+    ├── DeleteJob.js  (logic: delete job)
+    ├── FilterSortJob.js (logic: filter and sortJob)
+    ├── helpers.js  (utils methods)
+    ├── HeroSection.jsx (landing page)
+    ├── JobActionBar.jsx  (Action bar to apply search, filter and sort)
+    ├── JobCard.jsx (ui: jobcard)
+    ├── JobForm.jsx (ui: form to create and edit job)
+    └── JobList.jsx (ui: list rederer)
 ```
 
 
