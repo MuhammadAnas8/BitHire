@@ -1,16 +1,27 @@
 import React from "react";
 import "../styles/JobActionBar.css";
+import { FaSearch } from "react-icons/fa";
 
 const JobActionBar = ({ onSearchChange, onAddJob }) => {
   return (
     <div className="job-action-bar">
       {/* Search */}
-      <input
+
+      <div className="search-bar job-search">
+       
+              <input
         type="text"
         placeholder="Search jobs..."
         onChange={(e) => onSearchChange(e.target.value)}
-        className="job-search"
+        className="search-input"
+        
       />
+      <button className="search-btn">
+<FaSearch /> Search
+      </button>
+       
+      </div>
+
 
       {/* Filter, Sort, Add */}
       <div className="job-controls">

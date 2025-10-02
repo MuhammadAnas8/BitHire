@@ -20,21 +20,50 @@
 
 .job-action-bar .job-search {
   flex: 1;
-  padding: 10px ;
+  padding-left:10px;
   border: 1px solid #ccc;
+  border-right:none;
   border-radius: 6px;
   font-size: 14px;
   transition: border-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color:black;
 }
-
+.search-input{
+  /* background-color: red; */
+  font-size: 14px;
+  border: none;
+  flex: 3;
+}
+.search-input:focus{
+  outline: none;
+}
 .job-action-bar .job-search:focus {
   border-color: #16a34a;
   outline: none;
 }
+.search-btn{
+  border-radius: 8px;
+  display: flex;
+align-items: center;
+justify-content: center;
+flex: 1;
+gap: 0.5rem;
+background-color: var(--primary-color);
+color: white;
+  border: none;
+  height: 100%;
+  cursor: pointer;
+}
+.search-btn:hover{
+  background-color: var(--hover-color);
+}
 
 .job-controls {
   flex: 1;
-  /* background-color: red; */
   display: flex;
   gap: 1.4rem;
   flex-wrap: wrap;
@@ -42,7 +71,7 @@
 }
 
 .job-select {
-  padding: 10px 14px;
+  padding: 0.6rem 2rem;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
@@ -52,14 +81,14 @@
 }
 
 .job-select:focus {
-  border-color: #16a34a;
+  border-color: var(--hover-color);
   outline: none;
 }
 
 .btn {
   background: #16a34a;
   color: white;
-  padding: 10px 16px;
+  padding: 10px 20px;
   border: none;
   border-radius: 6px;
   font-size: 14px;

@@ -44,11 +44,12 @@
 }
 
 .icon-btn.edit:hover {
-  color: #2563eb; /* blue */
+  color: var(--hover-color); 
+  
 }
 
 .icon-btn.delete:hover {
-  color: #dc2626; /* red */
+  color: #dc2626; 
 }
 
 /* Header */
@@ -117,14 +118,14 @@
   border-radius: 6px;
   font-size: 0.95rem;
   font-weight: 600;
-  background: #2563eb;
+  background: var(--primary-color);
   color: white;
   cursor: pointer;
   transition: background 0.2s;
 }
 
 .btn.apply:hover {
-  background: #1e40af;
+  background: var(--hover-color);
 }
 
 /* Responsive (extra polish) */
