@@ -8,6 +8,8 @@
 
   width: 600px;
   max-width: 95%;
+  max-height: 90vh; /* Prevent overflow on short screens */
+  overflow-y: auto; /* Allow scrolling if content is too tall */
   padding: 24px 28px;
 
   background: #fff;
@@ -21,7 +23,6 @@
   animation: fadeIn 0.25s ease-out;
 }
 
-
 /* Dark backdrop */
 .modal-wrapper {
   position: fixed;
@@ -32,6 +33,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-y: auto; /* Allow scrolling on small screens */
 }
 
 /* Headline full width */
@@ -50,6 +52,13 @@
   flex-direction: column;
 }
 
+.form-group label {
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #374151;
+}
+
 .form-group.full {
   grid-column: span 2;
 }
@@ -65,6 +74,11 @@
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+.job-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
 .job-form input:focus,
 .job-form textarea:focus {
   border-color: #2563eb;
@@ -75,6 +89,7 @@
 
 /* Buttons row */
 .form-buttons {
+  grid-column: span 2;
   display: flex;
   gap: 12px;
   margin-top: 12px;
@@ -123,17 +138,136 @@
   }
 }
 
-
-
 .add-btn {
-  background-color: #16a34a; 
-  color: #ffffff;           
-  padding: 0.5rem 1rem;     
-  border-radius: 0.25rem;   
+  background-color: #16a34a;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
   border: none;
   cursor: pointer;
 }
 
 .add-btn:hover {
-  background-color: #15803d; 
+  background-color: #15803d;
+}
+
+/* === RESPONSIVE MEDIA QUERIES === */
+
+/* Tablet screens */
+@media (max-width: 768px) {
+  .job-form {
+    width: 500px;
+    max-width: 92%;
+    padding: 20px 24px;
+    gap: 14px;
+  }
+
+  .job-form h2 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+  }
+
+  .job-form input,
+  .job-form textarea {
+    padding: 9px 11px;
+    font-size: 0.85rem;
+  }
+
+  .form-buttons button {
+    font-size: 0.9rem;
+    padding: 9px;
+  }
+}
+
+/* Mobile screens */
+@media (max-width: 640px) {
+  .job-form {
+    grid-template-columns: 1fr; /* Single column layout */
+    width: 100%;
+    max-width: 90%;
+    padding: 18px 20px;
+    gap: 12px;
+    max-height: 85vh;
+  }
+
+  .job-form h2 {
+    grid-column: span 1; /* Adjust for single column */
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+
+  .form-group.full {
+    grid-column: span 1; /* Adjust for single column */
+  }
+
+  .form-group label {
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+  }
+
+  .job-form input,
+  .job-form textarea {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+
+  .job-form textarea {
+    min-height: 70px;
+  }
+
+  .form-buttons {
+    grid-column: span 1; /* Adjust for single column */
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .form-buttons button {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .modal-wrapper {
+    padding: 10px;
+    align-items: flex-start; /* Align to top on mobile */
+    padding-top: 20px;
+  }
+}
+
+/* Very small mobile screens */
+@media (max-width: 480px) {
+  .job-form {
+    max-width: 95%;
+    padding: 16px 18px;
+    gap: 10px;
+    border-radius: 10px;
+  }
+
+  .job-form h2 {
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+  }
+
+  .form-group label {
+    font-size: 0.8rem;
+  }
+
+  .job-form input,
+  .job-form textarea {
+    padding: 7px 9px;
+    font-size: 0.8rem;
+    border-radius: 6px;
+  }
+
+  .form-buttons button {
+    padding: 9px;
+    font-size: 0.85rem;
+    border-radius: 6px;
+  }
+
+  .add-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+  }
 }
