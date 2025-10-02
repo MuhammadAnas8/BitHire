@@ -187,7 +187,7 @@ Frontend runs on: http://localhost:5173
 
 *Response:*
 
-json
+```json
 {
   "jobs": [...],
   "total": 50,
@@ -195,7 +195,7 @@ json
   "per_page": 15,
   "total_pages": 4
 }
-
+```
 
 ---
 
@@ -205,7 +205,7 @@ json
 
 *Request Body (JSON):*
 
-json
+```json
 {
   "title": "Frontend Developer",
   "company": "Bitbash",
@@ -215,16 +215,16 @@ json
   "posting_date": "2025-09-30",
   "tags": ["React", "JavaScript"]
 }
-
+```
 
 *Response:*
 
-json
+```json
 {
   "message": "Job created successfully",
   "job": { ... }
 }
-
+```
 
 ---
 
@@ -234,21 +234,21 @@ json
 
 *Request Body (JSON):*
 
-json
+```json
 {
   "title": "Senior Frontend Developer",
   "location": "Hybrid"
 }
-
+```
 
 *Response:*
 
-json
+```json
 {
   "message": "Job updated successfully",
   "job": { ... }
 }
-
+```
 
 ---
 
@@ -258,11 +258,11 @@ json
 
 *Response:*
 
-json
+```json
 {
   "message": "Job deleted successfully"
 }
-
+```
 
 ---
 
@@ -289,7 +289,7 @@ json
 
 ### Component Hierarchy
 
-
+```text
 App.jsx
 └── JobList.jsx (Main Container)
     ├── JobActionBar.jsx (Controls)
@@ -298,6 +298,7 @@ App.jsx
     │   ├── AddEditJob.js (API helper)
     │   └── DeleteJob.js (API helper)
     └── JobForm.jsx (Add/Edit Modal)
+```
 
 
 ### Key Components
