@@ -1,8 +1,10 @@
+import { useEffect } from "react";
+import { filterSortJobs } from "./FilterSortJob";
 const loadJobs = async () => {
   setLoading(true);
   try {
     const params = Object.fromEntries(searchParams.entries());
-    const items = await filterSortJobs(params); // FilterSortJob.js stays the same
+    const items = await filterSortJobs(params); 
     setJobs(items);
   } catch (err) {
     console.error("Error fetching jobs:", err);
@@ -13,4 +15,4 @@ const loadJobs = async () => {
 
 useEffect(() => {
   loadJobs();
-}, [searchParams]);  // 🔥 reload whenever URL query changes
+}, [searchParams]);  

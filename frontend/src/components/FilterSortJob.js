@@ -1,28 +1,21 @@
 // src/components/FilterSortJob.js
 import { fetchAllJobs } from "../api";
 
-export const filterSortJobs = async ({ search, filterType, sort }) => {
+export const filterSortJobs = async ({ search, filterType, sortBy, sortOrder }) => {
   const params = {};
 
-  // 🔍 Search only by title for now
-  if (search) {
-    params.title = search;
+  // Search
+  if (search) params.title = search;
+
+  // Filter
+  if (filterType) params.job_type = filterType;  
+
+  // Sorting
+  if (sortBy) {
+    params.sort_by = sortBy;
+    params.sort_order = sortOrder || "desc";
   }
 
-  // 🏢 Filter (we map filterType to company/location/job_type depending on your backend)
-  if (filterType) {
-    params.location = filterType; 
-  }
-
-  // ↕️ Sorting
-  if (sort === "date") {
-    params.order_by = "date_posted";
-  }
-  if (sort === "title") {
-    params.order_by = "title";
-  }
-
-  // call backend
   const data = await fetchAllJobs(params);
   return data.items;
 };
