@@ -12,10 +12,10 @@ job_blueprint = Blueprint("jobs", __name__, url_prefix="/jobs")
 # -------------------------
 @job_blueprint.get("/")
 def list_jobs():
-    """List all jobs with optional filters and pagination."""
+    """List all jobs with optional filters, sorting, and pagination."""
     query = Job.query
 
-    # Filtering
+    # ---- Filtering ----
     title = request.args.get("title")
     if title:
         query = query.filter(Job.title.ilike(f"%{title}%"))
@@ -28,6 +28,10 @@ def list_jobs():
     if location:
         query = query.filter(Job.location.ilike(f"%{location}%"))
 
+    job_type = request.args.get("job_type")
+    if job_type:
+        query = query.filter(Job.job_type.ilike(f"%{job_type}%"))
+
     posted_after = request.args.get("posted_after")
     if posted_after:
         try:
@@ -36,14 +40,25 @@ def list_jobs():
         except ValueError:
             abort(400, description="posted_after must be YYYY-MM-DD")
 
-    # Pagination (defaults: page=1, per_page=20, max=100)
-    page = int(request.args.get("page", 1))
-    per_page = min(int(request.args.get("per_page", 20)), 100)
+    # ---- Sorting ----
+    sort_by = request.args.get("sort_by", "date_posted")   # default
+    sort_order = request.args.get("sort_order", "desc")    # default
 
-    pagination = (
-        query.order_by(Job.date_posted.desc())
-        .paginate(page=page, per_page=per_page, error_out=False)
-    )
+    if sort_by == "title":
+        column = Job.title
+    else:
+        column = Job.date_posted
+
+    if sort_order == "asc":
+        query = query.order_by(column.asc())
+    else:
+        query = query.order_by(column.desc())
+
+    # ---- Pagination ----
+    page = int(request.args.get("page", 1))
+    per_page = min(int(request.args.get("per_page", 15)), 100)
+
+    pagination = query.paginate(page=page, per_page=per_page, error_out=False)
 
     return jsonify({
         "items": [job.to_dict() for job in pagination.items],
@@ -52,6 +67,8 @@ def list_jobs():
         "total": pagination.total,
         "pages": pagination.pages,
     })
+
+
 
 
 # -------------------------
