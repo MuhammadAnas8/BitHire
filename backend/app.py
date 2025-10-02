@@ -19,7 +19,7 @@ def create_app() -> Flask:
 
     @app.get("/")
     def health():
-        return jsonify({"status": "ok", "service": "bitbash-backend"})
+        return jsonify({"status": "ok", "service": "bithire-backend"})
 
     return app
 

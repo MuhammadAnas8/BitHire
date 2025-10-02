@@ -1,6 +1,6 @@
 // JobActionBar.jsx
 import React, { useState } from "react";
-import "../styles/JobActionBar.css";
+import "../../styles/JobActionBar.css";
 import { FaSearch } from "react-icons/fa";
 
 const JobActionBar = ({ onSearchChange, onAddJob, onFilterChange, onSortChange }) => {

@@ -1,6 +1,6 @@
 // src/components/JobForm.jsx
 import { useState, useEffect } from "react";
-import "../styles/form.css";
+import "../../styles/form.css";
 
 const JobForm = ({ initialData, onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({

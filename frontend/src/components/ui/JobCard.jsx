@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/JobCard.css";
+import "../../styles/JobCard.css";
  import { FaRegTrashCan,FaLocationDot  } from "react-icons/fa6";
  import { FaRegEdit,FaRegCalendarAlt,FaRegClock,FaRegBuilding  } from "react-icons/fa";
 

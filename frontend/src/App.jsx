@@ -1,7 +1,7 @@
 import React from "react";
-import JobList from "./components/JobList";
+import JobList from "./components/ui/JobList";
 import "./App.css";
-import HeroSection from "./components/HeroSection";
+import HeroSection from "./components/ui/HeroSection";
 export default function App() {
   return (
     <div className="app">

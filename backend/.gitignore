@@ -1,4 +1,3 @@
-# ignore files related to virtual environments and Python bytecode
 venv/
 __pycache__/
 *.pyc

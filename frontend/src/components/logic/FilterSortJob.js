@@ -1,5 +1,5 @@
 // src/components/FilterSortJob.js
-import { fetchAllJobs } from "../api";
+import { fetchAllJobs } from "../../api";
 
 export const filterSortJobs = async ({ search, filterType, sortBy, sortOrder }) => {
   const params = {};
