@@ -1,0 +1,72 @@
+.jobs-container{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 16px 0;
+  width: 100%;
+
+}
+
+.job-action-bar {
+
+  margin: 0 15px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  gap: 12px;
+}
+
+.job-action-bar .job-search {
+  flex: 1;
+  padding: 10px ;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+}
+
+.job-action-bar .job-search:focus {
+  border-color: #16a34a;
+  outline: none;
+}
+
+.job-controls {
+  flex: 1;
+  /* background-color: red; */
+  display: flex;
+  gap: 1.4rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.job-select {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.job-select:focus {
+  border-color: #16a34a;
+  outline: none;
+}
+
+.btn {
+  background: #16a34a;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn:hover {
+  background: #15803d;
+}

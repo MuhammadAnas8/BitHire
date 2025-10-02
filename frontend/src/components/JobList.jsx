@@ -5,6 +5,7 @@ import JobForm from "./JobForm";
 import { loadJobs } from "./helpers";
 import { handleDeleteJob } from "./DeleteJob";
 import { handleAddEditJob } from "./AddEditJob";
+import JobActionBar from "./JobActionBar";
 
 const JobList = () => {
   const [jobs, setJobs] = useState([]);
@@ -44,18 +45,18 @@ const JobList = () => {
 
   return (
     <>
-      {showForm ? (
+      {showForm && (
         <JobForm
           initialData={editingJob}
           onSubmit={handleSubmit}
           onCancel={() => setShowForm(false)}
         />
-      ) : (
-        <button onClick={handleAdd} className="add-btn">
-          + Add Job
-        </button>
       )}
-
+      <div className="jobs-container">
+       <JobActionBar
+        onSearchChange={handleAdd}
+        onAddJob={handleAdd}
+      />
       <div className="job-list">
         {jobs.map((job) => (
           <JobCard
@@ -65,6 +66,7 @@ const JobList = () => {
             onDelete={() => handleDelete(job.id)}
           />
         ))}
+      </div>
       </div>
     </>
   );
