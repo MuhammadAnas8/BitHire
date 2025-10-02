@@ -1,117 +1,48 @@
-// JobList.jsx
-import React, { useEffect, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import JobCard from "./JobCard";
+// components/ui/JobList.jsx
+import React, { useRef } from "react";
 import JobForm from "./JobForm";
 import JobActionBar from "./JobActionBar";
-import { handleDeleteJob } from "../logic/DeleteJob";
-import { handleAddEditJob } from "../logic/AddEditJob";
-import { filterSortJobs } from "../logic/FilterSortJob";
+import JobListContent from "./JobListContent";
+import Pagination from "./Pagination";
+import { useJobFilters } from "../logic/useJobFilter";
+import { useJobData } from "../logic/useJobData";
+import { useJobForm } from "../logic/useJobForm";
 
 const JobList = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  // URL Params
-  const search = searchParams.get("title") || "";
-  const filterType = searchParams.get("job_type") || "";
-  const sortBy = searchParams.get("sort_by") || "date_posted";
-  const sortOrder = searchParams.get("sort_order") || "desc";
-
-  // State
-  const [jobs, setJobs] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [editingJob, setEditingJob] = useState(null);
-  const [showForm, setShowForm] = useState(false);
-
   const jobListRef = useRef(null);
-  const scrollPositionRef = useRef(0); // Store scroll position
 
-  // Load Jobs
-  const loadJobs = async () => {
-    setLoading(true);
-    try {
-      const items = await filterSortJobs({ search, filterType, sortBy, sortOrder });
-      setJobs(items);
-    } catch (err) {
-      console.error("Error fetching jobs:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // Custom hooks for state management
+  const {
+    filters,
+    scrollPositionRef,
+    handleSearch,
+    handleFilter,
+    handleSort,
+    handlePageChange,
+  } = useJobFilters();
 
-  // Load jobs when params change
-  useEffect(() => {
-    loadJobs();
-  }, [search, filterType, sortBy, sortOrder]);
+  const { jobs, loading, pagination, loadJobs } = useJobData(
+    filters,
+    scrollPositionRef
+  );
 
-  // Restore scroll position after jobs load
-  useEffect(() => {
-    if (!loading) {
-      requestAnimationFrame(() => {
-        window.scrollTo(0, scrollPositionRef.current);
-      });
-    }
-  }, [loading]);
+  const {
+    editingJob,
+    showForm,
+    handleAdd,
+    handleEdit,
+    handleSubmit,
+    handleDelete,
+    handleCancel,
+  } = useJobForm(loadJobs);
 
-  // Update URL params and save scroll position
-  const updateParams = (newValues) => {
-    // Save current scroll position before updating params
-    scrollPositionRef.current = window.scrollY;
-    
-    const params = new URLSearchParams(searchParams);
-    
-    // Update or delete params based on newValues
-    Object.entries(newValues).forEach(([key, value]) => {
-      if (value) {
-        params.set(key, value);
-      } else {
-        params.delete(key);
-      }
-    });
-
-    // Update search params
-    setSearchParams(params, { replace: true });
-  };
-
-  // Handlers
-  const handleSearch = (title) => {
-    updateParams({ title });
-  };
-
-  const handleFilter = (job_type) => {
-    updateParams({ job_type });
-  };
-
-  const handleSort = ({ sortBy, sortOrder }) => {
-    updateParams({ sort_by: sortBy, sort_order: sortOrder });
-  };
-
-  const handleAdd = () => {
-    setEditingJob(null);
-    setShowForm(true);
-  };
-
-  const handleEdit = (job) => {
-    setEditingJob(job);
-    setShowForm(true);
-  };
-
-  const handleSubmit = async (payload) => {
-    await handleAddEditJob(editingJob, payload, loadJobs, () => {
-      setShowForm(false);
-      setEditingJob(null);
-    });
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      await handleDeleteJob(id, loadJobs);
-    } catch (err) {
-      console.error("Error deleting job:", err);
-    }
-  };
-
-  if (loading) return <p>Loading jobs...</p>;
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <p>Loading jobs...</p>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -119,10 +50,7 @@ const JobList = () => {
         <JobForm
           initialData={editingJob}
           onSubmit={handleSubmit}
-          onCancel={() => {
-            setShowForm(false);
-            setEditingJob(null);
-          }}
+          onCancel={handleCancel}
         />
       )}
 
@@ -134,20 +62,13 @@ const JobList = () => {
           onAddJob={handleAdd}
         />
 
-        <div className="job-list">
-          {jobs.length > 0 ? (
-            jobs.map((job) => (
-              <JobCard
-                key={job.id}
-                job={job}
-                onEdit={() => handleEdit(job)}
-                onDelete={() => handleDelete(job.id)}
-              />
-            ))
-          ) : (
-            <p>No jobs found.</p>
-          )}
-        </div>
+        <JobListContent
+          jobs={jobs}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+
+        <Pagination pagination={pagination} onPageChange={handlePageChange} />
       </div>
     </>
   );
