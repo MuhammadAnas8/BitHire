@@ -6,7 +6,7 @@
 ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-D71F00?style=for-the-badge&logo=sqlalchemy&logoColor=white)
 
 BitHire is a *full-stack job portal* built as an assessment project for *Bitbash*.  
-It allows job seekers to browse, search, and filter job postings while enabling admins to add, edit, and delete jobs.
+It allows job seekers to browse, search, and filter job postings while enabling admins to add, edit, and delete jobs. You can watch the demo video [here]( https://drive.google.com/file/d/1R9i53ej9jnjjcPIyhVXOzX9Yt9UMUWZw/view?usp=sharing )
 
 ---
 
